@@ -1,0 +1,31 @@
+#include <stdio.h>
+#include <string.h>
+#include <math.h>
+#include <stdlib.h>
+long long int fact(long long int a,long long int n,long long int c)
+{
+    long long int res=1;
+   for(int i=0;i<n;i++)
+   {
+       res=(res*a)%c;
+       a--;
+   }
+    return res;
+}
+int main() {
+
+    /* Enter your code here. Read input from STDIN. Print output to STDOUT */ 
+    long long int a,b,c;
+    scanf("%lld%lld%lld",&a,&b,&c);
+    long long int d;
+       
+    if(c==0)
+        printf("0");
+    else
+    {
+         d=fact(a,a-b,c);
+        printf("%lld",d%c);
+    }
+    
+    return 0;
+}
