@@ -1,0 +1,138 @@
+#include<stdio.h>
+void swap(int *p,int *q)
+{
+	int t=*p;
+	*p=*q;
+	*q=t;
+}
+int max_in_givenarray(int a[],int n)
+{
+	int max=a[0];
+	for(int i=1;i<n;i++)
+	{
+		if(a[i]>max)
+		{
+			max=a[i];
+		}
+	}
+	return max;
+}
+int len(int n)
+{
+	int c=0;
+	while(n>0)
+	{
+		n=n/10;
+		c++;
+	}
+	return c;
+}
+int get_first(int n, int l)
+{
+	int k=1;
+	for(int i=0;i<l-1;i++)
+	{
+		k=k*10;
+	}
+	return n/k;
+}
+void sort(int a[],int e,int n)
+{
+	int b[n];
+	for(int i=0;i<n;i++)
+	{
+		int k,l;
+		k=len(a[i]);
+		l=len(e);
+		if(k>=l)
+		b[i]=(a[i]/e)%10;
+		else{
+			b[i]=get_first(a[i],k);
+		}
+	}
+	for(int i=0;i<n-1;i++)
+	{
+		for(int j=0;j<n-i-1;j++)
+		{
+			if(b[j]>b[j+1])
+			{
+				swap(&a[j],&a[j+1]);
+				swap(&b[j],&b[j+1]);
+			}
+		}
+	}
+	//to implement sorting in count sort
+	/*
+	int has[10];
+	for(int i=0;i<9;i++)
+	{
+		has[i]=0;
+	}
+	for(int i=0;i<n;i++)
+	{
+		has[b[i]]++;
+	}
+	for(int i=1;i<n;i++)
+	{
+		has[i]=has[i]+has[i-1];
+	}
+	int x[n];
+	for(int i=n-1;i>0;i--)
+	{
+		x[has[b[i]]-1]=a[i];
+		has[b[i]]--;
+	}
+	for(int i=0;i<n;i++)
+	{
+		a[i]=x[i];
+	}*/
+}
+void min_no(int a[],int n)
+{
+	int max=max_in_givenarray(a,n);
+	for(int i=1;max/i!=0;i=i*10)
+	{
+		sort(a,i,n);
+	}
+}
+int find(int a[],int k,int n)
+{
+	for(int i=0;i<n;i++)
+	{
+		if(a[i]==k)
+		{
+			return i;
+		}
+	}
+}
+int main()
+{
+	int n;
+	scanf("%d",&n);  //length of array
+	int a[n],b[n];
+	for(int i=0;i<n;i++)
+	{
+		scanf("%d",&a[i]);//array elements
+		b[i]=a[i];
+	}
+	min_no(a,n);
+	int m;
+	for(int i=0;i<n;i++)
+	{
+		printf("%d ",a[i]);
+	}
+	printf("\nenter no. of swaps");
+	scanf("%d",&m); //minimum no. of swaps
+	for(int i=0;i<m;i++)
+	{
+		if(a[i]!=b[i])
+		{
+			int f=find(b,a[i],n);
+			swap(&b[i],&b[f]);
+		}
+	}
+	for(int i=0;i<n;i++)
+	{
+		printf("%d ",b[i]);
+	}	
+}
