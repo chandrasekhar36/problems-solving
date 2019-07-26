@@ -1,0 +1,109 @@
+#include<stdio.h>
+#include<stdlib.h>
+struct node{
+    int data;
+    struct node* next;
+}*head=NULL;
+//typedef struct node node;
+struct node *createnode(int x)
+{
+    struct node *m=(struct node *)malloc(sizeof(struct node));
+    m->data=x;
+    m->next=NULL;
+    return m;
+}
+void insert_beg(struct node** head,int x)
+{
+    struct node *m=createnode(x);
+    if(*head!=NULL)
+    {
+        m->next=*head;
+    }
+    *head=m;
+}
+void insert_end(struct node** head,int x)
+{
+    struct node *m=createnode(x);
+    if(*head==NULL)
+    {
+        *head=m;
+        return;
+    }
+    struct node* k=*head;
+    while(k->next!=NULL)
+    {
+        k=k->next;
+    }
+    k->next=m;
+}
+void display(struct node *head)
+{
+    if(head!=NULL)
+    {
+        printf("%d ",head->data);
+        display(head->next);
+    }
+}
+void insertafterkey(struct node *head,int x,int key)
+{
+    struct node* m=createnode(x);
+    struct node* k=head;
+    while(k!=NULL)
+    {
+        if(k->data==key)
+        {
+            m->next=k->next;
+            k->next=m;
+        }
+        k=k->next;
+    }
+}
+void insertbeforekey(struct node **head,int x,int key)
+{
+    struct node* m=createnode(x);
+    struct node* k=*head,*l;
+    if(k->data==key)
+    {
+        m->next=*head;
+        *head=m;
+        return;
+    }
+    while(k!=NULL)
+    {
+        if(k->data==key)
+        {
+            m->next=l->next;
+            l->next=m;
+        }
+        l=k;
+        k=k->next;
+    }
+}
+void reverse(struct node **head)
+{
+    struct node *t=NULL,*x=*head,*y=x->next;
+    while(y!=NULL)
+    {
+        x->next=t;
+        t=x;
+        x=y;
+        y=y->next;
+        x->next=t;
+    }
+    *head=x;
+}
+int main()
+{
+    insert_beg(&head,999);
+   insert_beg(&head,99);
+    insert_beg(&head,9);
+    insert_end(&head,10);
+    insertafterkey(head,100,10);
+    insertbeforekey(&head,120,9);
+    insertbeforekey(&head,120,999);
+
+    display(head);
+    printf("\n");
+    reverse(&head);
+    display(head);
+}
